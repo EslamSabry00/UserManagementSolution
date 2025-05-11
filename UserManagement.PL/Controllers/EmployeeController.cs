@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.BLL.Interfaces;
@@ -21,11 +22,15 @@ namespace UserManagement.PL.Controllers
             _departmentRepository = departmentRepository;
             _Mapper = mapper;
         }
-        public IActionResult Index()
+        public IActionResult Index(string SearchValue)
         {
-            var Employees = _employeeRepository.GetAll();
-            var mappedEmp = _Mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(Employees);
+            IEnumerable<Employee> Employees;
+            if (SearchValue == null)
+                Employees = _employeeRepository.GetAll();
+            else
+                Employees = _employeeRepository.GetEmployeesByName(SearchValue);
 
+            var mappedEmp = _Mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(Employees);
             return View(mappedEmp);
         }
         public IActionResult Create() {

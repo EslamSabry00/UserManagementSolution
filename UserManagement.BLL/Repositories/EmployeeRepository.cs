@@ -12,14 +12,12 @@ namespace UserManagement.BLL.Repositories
 {
     public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository
     {
-        private readonly OurCompanyDbContext _dbContext;
-        public EmployeeRepository(OurCompanyDbContext dbContext) : base(dbContext) { 
-            _dbContext = dbContext;
+        public EmployeeRepository(OurCompanyDbContext dbContext) : base(dbContext) {
         }
 
         IQueryable<Employee> IEmployeeRepository.GetEmployeesByName(string name)
         {
-            return _dbContext.Employees.Where(E => E.Name.Contains(name));
+            return _dbContext.Employees.Where(E => E.Name.ToLower().Contains(name.ToLower()));
         }
     }
 }

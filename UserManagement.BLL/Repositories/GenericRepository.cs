@@ -12,7 +12,7 @@ namespace UserManagement.BLL.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private OurCompanyDbContext _dbContext;
+        private protected OurCompanyDbContext _dbContext;
 
         public GenericRepository(OurCompanyDbContext dbContext) // request creation of object from clr
         {
