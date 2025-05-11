@@ -1,6 +1,6 @@
 using System;
 
-namespace UserManagement.PL.Models
+namespace UserManagement.PL.ViewModels
 {
     public class ErrorViewModel
     {

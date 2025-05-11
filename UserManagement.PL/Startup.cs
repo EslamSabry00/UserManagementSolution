@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using UserManagement.BLL.Interfaces;
 using UserManagement.BLL.Repositories;
 using UserManagement.DAL.Contexts;
+using UserManagement.PL.MappingProfiles;
 
 namespace UserManagement.PL
 {
@@ -37,6 +38,7 @@ namespace UserManagement.PL
                 );
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddAutoMapper(M => M.AddProfile(new EmployeeProfile()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

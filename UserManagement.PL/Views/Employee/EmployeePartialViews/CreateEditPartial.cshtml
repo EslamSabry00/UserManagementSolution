@@ -1,6 +1,7 @@
-﻿@model Employee
+﻿@model EmployeeViewModel
+@inject IDepartmentRepository depatmentRepository;
 @{
-    var departments = new SelectList(ViewBag.departments, "Id", "Name");
+    var departments = new SelectList(depatmentRepository.GetAll(), "Id", "Name");
 }
 
 <div asp-validation-summary="All"></div>
@@ -30,7 +31,10 @@
 
 <div class="form-group">
     <label class="col-form-label" asp-for="IsActive"></label>
-    <input asp-for="IsActive" class="form-control" />
+    <div class="form-control text-center fs-4">
+		<input asp-for="IsActive" class="form-check-input" />
+    </div>
+    
     <span asp-validation-for="IsActive" class="text-danger"></span>
 </div>
 
