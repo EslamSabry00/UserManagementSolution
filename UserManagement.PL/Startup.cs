@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.CodeAnalysis.Operations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +40,8 @@ namespace UserManagement.PL
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddAutoMapper(M => M.AddProfile(new EmployeeProfile()));
+            services.AddAutoMapper(M => M.AddProfile(new DepartmentProfile()));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

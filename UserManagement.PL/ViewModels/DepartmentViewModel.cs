@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
+using UserManagement.DAL.Models;
 
-namespace UserManagement.DAL.Models
+namespace UserManagement.PL.ViewModels
 {
-    public class Department
+    public class DepartmentViewModel
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "code is required")]
         public string Code { get; set; }
-        [Required]
+        [Required(ErrorMessage = "code is required")]
         public string Name { get; set; }
         public DateTime DateOfCreation { get; set; }
 
         //navigational prop[Many]
         public ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
-         
     }
 }
