@@ -26,14 +26,16 @@ namespace UserManagement.DAL.Models
         public decimal Salary { get; set; }
 
         public bool IsActive { get; set; }
-
+        
         public string Email { get; set; }
-
+        
         public string Phone { get; set; }
 
         public DateTime HireDate { get; set; }
 
         public DateTime CreationDate { get; set; } = DateTime.Now;
+
+        public string ImageName {  get; set; }
 
         [ForeignKey("Department")]
         public int? DeptId { get; set; }

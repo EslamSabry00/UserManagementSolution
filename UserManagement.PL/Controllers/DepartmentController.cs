@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using UserManagement.BLL.Interfaces;
@@ -11,6 +13,7 @@ using UserManagement.PL.ViewModels;
 
 namespace UserManagement.PL.Controllers
 {
+    [Authorize]
     public class DepartmentController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -24,9 +27,9 @@ namespace UserManagement.PL.Controllers
             _mapper = mapper;
             //_DepartmentRepository = DepartmentRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var departments = _unitOfWork.DepartmentRepository.GetAll();
+            var departments = await _unitOfWork.DepartmentRepository.GetAll();
             var mapped = _mapper.Map<IEnumerable<Department>,IEnumerable<DepartmentViewModel>>(departments);
             return View(mapped);
         }
@@ -34,30 +37,30 @@ namespace UserManagement.PL.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult create(DepartmentViewModel departmentVM)
+        public async Task<IActionResult> create(DepartmentViewModel departmentVM)
         {
             if (ModelState.IsValid)
             {
                 var mapped = _mapper.Map<DepartmentViewModel, Department>(departmentVM);
-                int count = _unitOfWork.DepartmentRepository.Add(mapped);
+                int count = await _unitOfWork.DepartmentRepository.Add(mapped);
                 if (count > 0)
                     TempData["Message"] = "Department Added Successfully";
                 return RedirectToAction(nameof(Index));
             }
             return View(departmentVM);
         }
-        public IActionResult Details(int? id, string viewName = "Details" )
+        public async Task<IActionResult> Details(int? id, string viewName = "Details" )
         {
             if (id is null)
                 return BadRequest();
-            var department = _unitOfWork.DepartmentRepository.Get(id.Value);
+            var department = await _unitOfWork.DepartmentRepository.Get(id.Value);
             var mapped = _mapper.Map<Department,DepartmentViewModel>(department);
             if (department is null)
                 return NotFound();
             return View(viewName, mapped);
         }
-        public IActionResult Edit(int? id) {
-            return Details(id, "Edit");
+        public async Task<IActionResult> Edit(int? id) {
+            return await Details(id, "Edit");
             //if (id is null)
             //    return BadRequest();
             //var department = _unitOfWork.DepartmentRepository.Get(id.Value);
@@ -67,7 +70,7 @@ namespace UserManagement.PL.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken] 
-        public IActionResult Edit([FromRoute] int id,DepartmentViewModel departmentVM) {
+        public async Task<IActionResult> Edit([FromRoute] int id,DepartmentViewModel departmentVM) {
             if (id != departmentVM.Id)
                 return BadRequest();
             if (ModelState.IsValid)
@@ -75,7 +78,7 @@ namespace UserManagement.PL.Controllers
                 try
                 {
                     var mapped = _mapper.Map<DepartmentViewModel, Department>(departmentVM);
-                    _unitOfWork.DepartmentRepository.Update(mapped);
+                    await _unitOfWork.DepartmentRepository.Update(mapped);
                     return RedirectToAction(nameof(Index));
                 }
                 catch(Exception EX)
@@ -87,19 +90,19 @@ namespace UserManagement.PL.Controllers
             return View(departmentVM);
             
         }
-        public IActionResult Delete(int id) {
-            return Details(id, "Delete");
+        public async Task<IActionResult> Delete(int id) {
+            return await Details(id, "Delete");
         } 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete([FromRoute] int id, DepartmentViewModel depVM)
+        public async Task<IActionResult> Delete([FromRoute] int id, DepartmentViewModel depVM)
         {
             if (id != depVM.Id)
                 return BadRequest();
             try
             {
                 var mapped = _mapper.Map<DepartmentViewModel,Department>(depVM);
-                _unitOfWork.DepartmentRepository.Delete(mapped);
+                await _unitOfWork.DepartmentRepository.Delete(mapped);
                 return RedirectToAction(nameof(Index));  
             }
             catch (Exception ex) {

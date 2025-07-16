@@ -22,8 +22,8 @@ namespace UserManagement.BLL.Repositories
             _dbContext = dbContext;
         }
 
-        int IUnitOfWork.Complete()
-            => _dbContext.SaveChanges();
+        async Task<int> IUnitOfWork.Complete()
+            => await _dbContext.SaveChangesAsync();
 
         public void Dispose()
             => _dbContext.Dispose();

@@ -9,14 +9,14 @@ namespace UserManagement.BLL.Interfaces
 {
     public interface IGenericRepository<T>
     {
-        IEnumerable<T> GetAll();
+       Task<IEnumerable<T>> GetAll();
 
-        T Get(int id);
+       Task<T> Get(int id);
 
-        int Add(T item);
+       Task<int> Add(T item);
 
-        int Update(T item);
+       Task<int> Update(T item);
 
-        int Delete(T item);
+       Task<int> Delete(T item);
     }
 }

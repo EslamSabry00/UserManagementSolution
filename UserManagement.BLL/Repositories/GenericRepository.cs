@@ -19,40 +19,40 @@ namespace UserManagement.BLL.Repositories
             _dbContext = dbContext;
         }
 
-        public int Add(T item)
+        public async Task<int> Add(T item)
         {
-            _dbContext.Set<T>().Add(item);
-            return _dbContext.SaveChanges();
+            await _dbContext.Set<T>().AddAsync(item);
+            return await _dbContext.SaveChangesAsync();
         }
 
-        public int Delete(T item)
+        public async Task<int> Delete(T item)
         {
             _dbContext.Set<T>().Remove(item);
-            return _dbContext.SaveChanges();
+            return await _dbContext.SaveChangesAsync();
         }
 
-        public T Get(int id)
+        public async Task<T> Get(int id)
         {
             //return _dbContext.Departments.Where(D => D.Id == id).FirstOrDefault();
             if (typeof(T) == typeof(Employee))
-                return _dbContext.Employees.Include(e=>e.Department).Where(e => e.Id == id).FirstOrDefault() as T;
-            return _dbContext.Set<T>().Find(id);
+                return await _dbContext.Employees.Include(e=>e.Department).Where(e => e.Id == id).FirstOrDefaultAsync() as T;
+            return await _dbContext.Set<T>().FindAsync(id);
         } 
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
             if (typeof(T) == typeof(Employee))
             {
-                return (IEnumerable<T>)_dbContext.Employees.Include(E => E.Department).ToList();
+                return  (IEnumerable<T>) await _dbContext.Employees.Include(E => E.Department).ToListAsync();
             }
             else
-                return _dbContext.Set<T>().ToList();
+                return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public int Update(T item)
+        public async Task<int> Update(T item)
         {
             _dbContext.Set<T>().Update(item);
-            return _dbContext.SaveChanges();
+            return await _dbContext.SaveChangesAsync();
         }
     }
 }

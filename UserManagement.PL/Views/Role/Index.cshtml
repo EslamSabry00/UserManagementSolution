@@ -1,0 +1,58 @@
+﻿
+@model IEnumerable<RoleViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All Application Users</h1>
+<br />
+<br />
+<form asp-action="Index">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-4">
+            <input type="text" placeholder="Search By Name" class="form-control" name="name" />
+        </div>
+        <div class="col-2">
+            <input type="submit" value="Search" class="btn btn-success" />
+        </div>
+    </div>
+</form>
+<a asp-controller="Role" asp-action="Create" class="mt-2 btn btn-primary"><i class="fas fa-add"></i> Create New Role</a>
+
+@if (Model.Count() > 0)
+{
+    <table class="mt-5 table table-striped table-hover">
+        <thead>
+			<tr>
+				<td>@Html.DisplayNameFor(R => R.Id)</td>
+                <td>@Html.DisplayNameFor(R => R.Name)</td>
+                <td>Details</td>
+                <td>Update</td>
+                <td>Delete</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(M => role.Id )</td>
+                    <td>@Html.DisplayFor(M => role.Name)</td>
+
+                    <partial name="_ButtonsPartialView" model="@role.Id" />
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="mt-3 alert alert-warning">
+        <p>There is No Roles :(</p>
+    </div>
+}
+
+@section ValidationScriptSection {
+    <partial name="_ValidationScriptsPartial" />
+}
+

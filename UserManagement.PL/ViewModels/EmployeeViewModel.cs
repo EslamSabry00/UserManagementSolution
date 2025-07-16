@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System;
 using UserManagement.DAL.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace UserManagement.PL.ViewModels
 {
@@ -34,10 +35,14 @@ namespace UserManagement.PL.ViewModels
 
         public DateTime HireDate { get; set; }
 
+        public string ImageName { get; set; }
+
 
         [ForeignKey("Department")]
         public int? DeptId { get; set; }
         //navigational prop[one]
         public Department Department { get; set; }
+
+        public IFormFile Image { get; set; }
     }
 }

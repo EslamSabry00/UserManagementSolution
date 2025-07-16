@@ -10,6 +10,6 @@ namespace UserManagement.BLL.Interfaces
     {
         public IDepartmentRepository DepartmentRepository { get; set; }
         public IEmployeeRepository EmployeeRepository { get; set; }
-        int Complete();
+        Task<int> Complete();
     }
 }

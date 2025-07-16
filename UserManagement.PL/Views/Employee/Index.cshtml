@@ -31,6 +31,7 @@
                 <td>@Html.DisplayNameFor(E => E.Email)</td>
                 <td>@Html.DisplayNameFor(E => E.Phone)</td>
                 <td>@Html.DisplayNameFor(E => E.HireDate)</td>
+                <td>@Html.DisplayNameFor(E => E.Image)</td>
                 <td>Update</td>
                 <td>Delete</td>
             </tr>
@@ -48,9 +49,11 @@
                     <td>@Html.DisplayFor(M => employee.Email)</td>
                     <td>@employee.Phone</td>
                     <td>@employee.HireDate</td>
+                    <td>
+                        <img class="img-fluid rounded" alt="Employee Image" height="30" width="30" src="~/files/UserImages/@employee.ImageName" />
+                    </td>
 
-
-                    <partial name="_ButtonsPartialView" model="@employee.Id" />
+                    <partial name="_ButtonsPartialView" model="@employee.Id.ToString()" />
 
                 </tr>
             }
